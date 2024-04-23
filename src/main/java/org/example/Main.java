@@ -8,7 +8,6 @@ import org.example.service.MainServiceImpl;
 
 import java.util.Scanner;
 
-import static org.example.service.MainServiceImpl.database;
 import static org.example.service.MainServiceImpl.shortLinksDomain;
 
 public class Main {
