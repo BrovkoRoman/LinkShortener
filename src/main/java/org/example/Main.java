@@ -3,9 +3,11 @@ package org.example;
 
 
 import org.example.exception.UnknownShortLinkException;
+import org.example.jdbc.JdbcUtils;
 import org.example.service.MainService;
 import org.example.service.MainServiceImpl;
 
+import java.sql.*;
 import java.util.Scanner;
 
 import static org.example.service.MainServiceImpl.shortLinksDomain;
@@ -14,6 +16,19 @@ public class Main {
     public static Scanner sc = new Scanner(System.in);
     public static MainService service = new MainServiceImpl();
     public static void main(String[] args) {
+        try {
+            boolean connected = JdbcUtils.createConnection();
+            if (!connected) {
+                System.out.println("Error with connection to database");
+                return;
+            }
+            runCli();
+        } finally {
+            JdbcUtils.closeConnection();
+        }
+    }
+
+    private static void runCli() {
         while (true) {
             printMenu();
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.service.MainServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-04-23T12:25:52" hostname="LAPTOP-ED5NM171" time="3.643">
+<testsuite name="org.example.service.MainServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-04-23T13:40:55" hostname="LAPTOP-ED5NM171" time="5.219">
   <properties/>
-  <testcase name="testException()" classname="org.example.service.MainServiceTest" time="0.039"/>
-  <testcase name="testGetShortLink()" classname="org.example.service.MainServiceTest" time="0.019"/>
-  <testcase name="testGetLongLink()" classname="org.example.service.MainServiceTest" time="0.005"/>
-  <testcase name="testUniqueness()" classname="org.example.service.MainServiceTest" time="3.557"/>
+  <testcase name="testException()" classname="org.example.service.MainServiceTest" time="0.071"/>
+  <testcase name="testGetShortLink()" classname="org.example.service.MainServiceTest" time="0.063"/>
+  <testcase name="testGetLongLink()" classname="org.example.service.MainServiceTest" time="0.008"/>
+  <testcase name="testUniqueness()" classname="org.example.service.MainServiceTest" time="5.038"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
