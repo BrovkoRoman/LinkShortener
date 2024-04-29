@@ -10,15 +10,19 @@ import static org.example.service.MainServiceImpl.shortLinksDomain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MainServiceTest {
-    private final MainService service = new MainServiceImpl();
+    private final MainService mainService;
+
+    public MainServiceTest(MainService mainService) {
+        this.mainService = mainService;
+    }
 
     @Test
     void testGetShortLink() throws Exception {
         //given:
         String longLink = "www.example.com";
         //when:
-        String shortLink = service.getShortLink(longLink);
-        String shortLink2 = service.getShortLink(longLink);
+        String shortLink = mainService.getShortLink(longLink);
+        String shortLink2 = mainService.getShortLink(longLink);
         //then:
         assert(shortLink.length() == shortLinksDomain.length() + shortLinkLength);
         assertEquals(shortLink.substring(0, shortLinksDomain.length()), shortLinksDomain);
@@ -30,8 +34,8 @@ public class MainServiceTest {
         //given:
         String longLink = "www.example.com";
         //when:
-        String shortLink = service.getShortLink(longLink);
-        String longLink2 = service.getLongLink(shortLink);
+        String shortLink = mainService.getShortLink(longLink);
+        String longLink2 = mainService.getLongLink(shortLink);
         //then:
         assertEquals(longLink, longLink2);
     }
@@ -44,7 +48,7 @@ public class MainServiceTest {
         //when:
         for(int i = 0; i < N; i++)
         {
-            String shortLink = service.getShortLink(Integer.toString(i));
+            String shortLink = mainService.getShortLink(Integer.toString(i));
             map.put(shortLink, i);
         }
         //then:
@@ -58,7 +62,7 @@ public class MainServiceTest {
         //when:
         boolean exceptionThrown = false;
         try {
-            String longLink = service.getLongLink(shortLink);
+            String longLink = mainService.getLongLink(shortLink);
         } catch (UnknownShortLinkException e) {
           exceptionThrown = true;
         }

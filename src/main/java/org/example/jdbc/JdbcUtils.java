@@ -1,32 +1,22 @@
 package org.example.jdbc;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Configuration
 public class JdbcUtils {
     private static final String DB_URL = "jdbc:h2:~/test";
-    private static Connection connection;
-
-    public static boolean createConnection() {
+    @Bean(value = "connection")
+    public Connection getConnection() {
         try {
-            connection = DriverManager.getConnection(DB_URL, "admin", "admin");
-            return true;
-        } catch(SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public static Connection getConnection() {
-        return connection;
-    }
-
-    public static void closeConnection() {
-        try {
-        connection.close();
-        } catch(SQLException e) {
-            e.printStackTrace();
+            return DriverManager.getConnection(DB_URL, "admin", "admin");
+        } catch (Exception ex) {
+            System.out.println("Error occurred while connection to database: " + ex.getMessage());
+            throw new RuntimeException(ex);
         }
     }
 }

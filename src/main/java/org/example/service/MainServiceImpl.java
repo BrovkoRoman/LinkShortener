@@ -2,14 +2,20 @@ package org.example.service;
 
 import org.example.exception.UnknownShortLinkException;
 import org.example.repository.LinksRepository;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.Random;
 
+@Service
 public class MainServiceImpl implements MainService {
     public static final int shortLinkLength = 5;
     public static final String shortLinksDomain = "localhost:8080/";
-    public static final LinksRepository linksRepository = new LinksRepository();
+    private final LinksRepository linksRepository;
+
+    public MainServiceImpl(LinksRepository linksRepository) {
+        this.linksRepository = linksRepository;
+    }
 
     char getSymbol(int code) {
         if(code < 26)
