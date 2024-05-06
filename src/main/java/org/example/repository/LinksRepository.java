@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.example.exception.BadRepositoryFunctionCallException;
 import org.example.exception.UnknownShortLinkException;
 import org.example.jdbc.JdbcUtils;
 import org.springframework.stereotype.Repository;
@@ -16,83 +17,50 @@ public class LinksRepository {
     public LinksRepository(Connection connection) {
         this.connection = connection;
     }
-    public String getShortCode(String longLink) {
-        String sql = "SELECT * FROM links WHERE longLink = '" + longLink + "'";
+    public String getShortCode(String longLink) throws  BadRepositoryFunctionCallException, SQLException {
+        String sql = String.format("SELECT * FROM links WHERE longLink = '%s'", longLink);
 
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
 
-            if (resultSet.next())
-                return resultSet.getString("shortCode");
+        if (resultSet.next())
+            return resultSet.getString("shortCode");
 
-            System.out.println("Ошибка: данная длинная ссылка не найдена");
-            System.exit(0);
-            return null;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(0);
-            return null;
-        }
+        throw new BadRepositoryFunctionCallException("Error: long link is not found");
     }
 
-    public String getLongLink(String shortCode) {
-        String sql = "SELECT * FROM links WHERE shortCode = '" + shortCode + "'";
+    public String getLongLink(String shortCode) throws BadRepositoryFunctionCallException, SQLException {
+        String sql = String.format("SELECT * FROM links WHERE shortCode = '%s'", shortCode);
 
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
 
-            if(resultSet.next())
-                return resultSet.getString("longLink");
+        if(resultSet.next())
+            return resultSet.getString("longLink");
 
-            System.out.println("Ошибка: данная короткая ссылка не найдена");
-            System.exit(0);
-            return null;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(0);
-            return null;
-        }
+        throw new BadRepositoryFunctionCallException("Error: short code is not found");
     }
 
-    public boolean containsShortCode(String shortCode) {
-        String sql = "SELECT * FROM links WHERE shortCode = '" + shortCode + "'";
+    public boolean containsShortCode(String shortCode) throws SQLException {
+        String sql = String.format("SELECT * FROM links WHERE shortCode = '%s'", shortCode);
 
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(0);
-            return false;
-        }
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        return resultSet.next();
     }
 
-    public boolean containsLongLink(String longLink) {
-        String sql = "SELECT * FROM links WHERE longLink = '" + longLink + "'";
+    public boolean containsLongLink(String longLink) throws SQLException {
+        String sql = String.format("SELECT * FROM links WHERE longLink = '%s'", longLink);
 
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(0);
-            return false;
-        }
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        return resultSet.next();
     }
 
-    public void addPairOfLinks(String longLink, String shortCode) {
-        String sql = "INSERT INTO links(shortCode, longLink) VALUES ('" + shortCode + "', '" + longLink + "')";
+    public void addPairOfLinks(String longLink, String shortCode) throws SQLException {
+        String sql = String.format("INSERT INTO links(shortCode, longLink) VALUES ('%s', '%s')", shortCode, longLink);
 
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-        } catch(SQLException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(sql);
     }
 }

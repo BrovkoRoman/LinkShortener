@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.exception.BadRepositoryFunctionCallException;
 import org.example.exception.UnknownShortLinkException;
 import org.example.repository.LinksRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class MainServiceImpl implements MainService {
         else return (char)(code - 52 + '0');
     }
     @Override
-    public String getShortLink(String longLink) {
+    public String getShortLink(String longLink) throws SQLException, BadRepositoryFunctionCallException {
         if(linksRepository.containsLongLink(longLink))
             return shortLinksDomain + linksRepository.getShortCode(longLink);
 
@@ -45,7 +46,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public String getLongLink(String shortLink) throws UnknownShortLinkException {
+    public String getLongLink(String shortLink) throws UnknownShortLinkException, SQLException, BadRepositoryFunctionCallException {
         shortLink = shortLink.substring(shortLinksDomain.length(), shortLink.length());
         if(!linksRepository.containsShortCode(shortLink))
             throw new UnknownShortLinkException("Короткая ссылка не найдена");

@@ -32,12 +32,12 @@ public class MainControllerTest {
         for(int i = 0; i < 10; i++)
             longLink += (char)random.nextInt('a', 'z' + 1);
 
-        MvcResult mvcResult = mockMvc.perform(post("/create").content(longLink))
+        MvcResult mvcResult = mockMvc.perform(post("/url/create").content(longLink))
                 .andExpect(status().isOk()).andReturn();
 
         String shortLink = mvcResult.getResponse().getContentAsString();
 
-        mvcResult = mockMvc.perform(post("/create").content(longLink))
+        mvcResult = mockMvc.perform(post("/url/create").content(longLink))
                 .andExpect(status().isOk()).andReturn();
 
         String shortLink2 = mvcResult.getResponse().getContentAsString();
@@ -67,12 +67,12 @@ public class MainControllerTest {
         for(int i = 0; i < 10; i++)
             longLink += (char)random.nextInt('a', 'z' + 1);
 
-        MvcResult mvcResult = mockMvc.perform(post("/create").content(longLink))
+        MvcResult mvcResult = mockMvc.perform(post("/url/create").content(longLink))
                 .andExpect(status().isOk()).andReturn();
 
         String shortLink = mvcResult.getResponse().getContentAsString();
 
-        mvcResult = mockMvc.perform(get(shortLink.substring(shortLinksDomain.length() - 1, shortLink.length())))
+        mvcResult = mockMvc.perform(get("/url" + shortLink.substring(shortLinksDomain.length() - 1, shortLink.length())))
                 .andExpect(status().isOk()).andReturn();
 
         String longLink2 = mvcResult.getResponse().getContentAsString();
@@ -104,7 +104,7 @@ public class MainControllerTest {
 
             longLink += Integer.toString(i);
 
-            MvcResult mvcResult = mockMvc.perform(post("/create").content(longLink))
+            MvcResult mvcResult = mockMvc.perform(post("/url/create").content(longLink))
                     .andExpect(status().isOk()).andReturn();
 
             String shortLink = mvcResult.getResponse().getContentAsString();
@@ -132,7 +132,7 @@ public class MainControllerTest {
     @Test
     void testLinkNotFound() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(get("/a"))
+        MvcResult mvcResult = mockMvc.perform(get("/url/a"))
                 .andExpect(status().isOk()).andReturn();
 
         String longLink = mvcResult.getResponse().getContentAsString();
