@@ -133,7 +133,7 @@ public class MainControllerTest {
     void testLinkNotFound() throws Exception {
 
         MvcResult mvcResult = mockMvc.perform(get("/url/a"))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isBadRequest()).andReturn();
 
         String longLink = mvcResult.getResponse().getContentAsString();
         assertEquals(longLink, "There is no corresponding long link");
