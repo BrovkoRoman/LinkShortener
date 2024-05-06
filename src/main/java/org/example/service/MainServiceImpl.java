@@ -2,19 +2,18 @@ package org.example.service;
 
 import org.example.exception.BadRepositoryFunctionCallException;
 import org.example.exception.UnknownShortLinkException;
-import org.example.repository.LinksRepository;
+import org.example.dao.repository.OldLinksRepository;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.Random;
 
 @Service
 public class MainServiceImpl implements MainService {
     public static final int shortLinkLength = 5;
     public static final String shortLinksDomain = "localhost:8080/";
-    private final LinksRepository linksRepository;
+    private final OldLinksRepository linksRepository;
 
-    public MainServiceImpl(LinksRepository linksRepository) {
+    public MainServiceImpl(OldLinksRepository linksRepository) {
         this.linksRepository = linksRepository;
     }
 
@@ -26,7 +25,7 @@ public class MainServiceImpl implements MainService {
         else return (char)(code - 52 + '0');
     }
     @Override
-    public String getShortLink(String longLink) throws SQLException, BadRepositoryFunctionCallException {
+    public String getShortLink(String longLink) throws BadRepositoryFunctionCallException {
         if(linksRepository.containsLongLink(longLink))
             return shortLinksDomain + linksRepository.getShortCode(longLink);
 
@@ -46,7 +45,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public String getLongLink(String shortLink) throws UnknownShortLinkException, SQLException, BadRepositoryFunctionCallException {
+    public String getLongLink(String shortLink) throws UnknownShortLinkException, BadRepositoryFunctionCallException {
         shortLink = shortLink.substring(shortLinksDomain.length(), shortLink.length());
         if(!linksRepository.containsShortCode(shortLink))
             throw new UnknownShortLinkException("Короткая ссылка не найдена");

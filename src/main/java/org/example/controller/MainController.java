@@ -7,8 +7,6 @@ import org.example.service.MainService;
 import org.example.service.MainServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-
 import static org.example.service.MainServiceImpl.shortLinksDomain;
 
 @RestController
@@ -20,7 +18,7 @@ public class MainController {
     }
     @PostMapping(value = "/create")
     public String createShortLink(@RequestBody String longLink)
-            throws IncorrectLongLinkException, SQLException, BadRepositoryFunctionCallException {
+            throws IncorrectLongLinkException, BadRepositoryFunctionCallException {
         if(longLink == null || longLink.isBlank())
             throw new IncorrectLongLinkException();
 
@@ -30,7 +28,7 @@ public class MainController {
 
     @GetMapping("/{shortCode}")
     public String getLongLink(@PathVariable("shortCode") String shortCode)
-            throws UnknownShortLinkException, SQLException, BadRepositoryFunctionCallException {
+            throws UnknownShortLinkException, BadRepositoryFunctionCallException {
         return mainService.getLongLink(shortLinksDomain + shortCode);
     }
 }
