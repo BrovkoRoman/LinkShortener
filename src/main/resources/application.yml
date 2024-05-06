@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:h2:~/test
+    username: admin
+    password: admin
+
+logging:
+  level:
+    sql: INFO
+
