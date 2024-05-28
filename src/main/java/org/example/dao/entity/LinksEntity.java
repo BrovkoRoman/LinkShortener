@@ -7,9 +7,7 @@ import jakarta.persistence.Id;
 @Entity(name = "links")
 public class LinksEntity {
     @Id
-    @Column(name = "SHORT_CODE")
     private String shortCode;
-    @Column(name = "LONG_LINK")
     private String longLink;
 
     public LinksEntity() {}

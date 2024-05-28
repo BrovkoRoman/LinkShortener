@@ -2,15 +2,14 @@ package org.example.dao.repository;
 
 import org.example.dao.entity.LinksEntity;
 import org.example.exception.BadRepositoryFunctionCallException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 @Repository
 public class OldLinksRepository {
+    @Autowired
     private final LinksRepository linksRepository;
 
     public OldLinksRepository(LinksRepository linksRepository) { this.linksRepository = linksRepository; }
