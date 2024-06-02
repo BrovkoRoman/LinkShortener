@@ -1,22 +1,21 @@
 package org.example.controller;
 
-import org.example.dao.entity.LinksEntity;
 import org.example.dao.repository.LinksRepository;
 import org.example.exception.BadRepositoryFunctionCallException;
 import org.example.exception.IncorrectLongLinkException;
 import org.example.exception.UnknownShortLinkException;
-import org.example.service.MainService;
+import org.example.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static org.example.service.MainServiceImpl.shortLinksDomain;
+import static org.example.service.LinkServiceImpl.shortLinksDomain;
 
 @RestController
 @RequestMapping("/url")
 public class MainController {
-    private final MainService mainService;
-    public MainController(MainService mainService) {
-        this.mainService = mainService;
+    private final LinkService linkService;
+    public MainController(LinkService linkService) {
+        this.linkService = linkService;
     }
     @PostMapping(value = "/create")
     public String createShortLink(@RequestBody String longLink)
@@ -24,7 +23,7 @@ public class MainController {
         if(longLink == null || longLink.isBlank())
             throw new IncorrectLongLinkException();
 
-        return mainService.getShortLink(longLink);
+        return linkService.getShortLink(longLink);
     }
 
     @Autowired
@@ -33,7 +32,7 @@ public class MainController {
 
     @GetMapping("/{shortCode}")
     public String getLongLink(@PathVariable("shortCode") String shortCode)
-            throws UnknownShortLinkException, BadRepositoryFunctionCallException {
-        return mainService.getLongLink(shortLinksDomain + shortCode);
+            throws UnknownShortLinkException {
+        return linkService.getLongLink(shortLinksDomain + shortCode);
     }
 }

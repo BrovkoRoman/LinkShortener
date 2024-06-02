@@ -29,6 +29,6 @@ public class MyControllerAdvice {
 
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<String> handleSQLException(SQLException e) {
-        return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<String>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

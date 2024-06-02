@@ -1,6 +1,6 @@
 package org.example.exception;
 
-public class IncorrectLongLinkException extends Exception {
+public class IncorrectLongLinkException extends RuntimeException {
 
     public IncorrectLongLinkException() {
     }

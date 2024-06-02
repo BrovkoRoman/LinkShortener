@@ -1,8 +1,8 @@
 package org.example.controller;
 
-import org.example.exception.UnknownShortLinkException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
@@ -11,14 +11,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.HashMap;
 import java.util.Random;
 
-import static org.example.service.MainServiceImpl.shortLinkLength;
-import static org.example.service.MainServiceImpl.shortLinksDomain;
+import static org.example.service.LinkServiceImpl.shortLinkLength;
+import static org.example.service.LinkServiceImpl.shortLinksDomain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @AutoConfigureMockMvc
 public class MainControllerTest {
     @Autowired
@@ -47,19 +48,6 @@ public class MainControllerTest {
         assertEquals(shortLink, shortLink2);
     }
 
-    /*@Test
-    void testGetShortLink() throws Exception {
-        //given:
-        String longLink = "www.example.com";
-        //when:
-        String shortLink = mainService.getShortLink(longLink);
-        String shortLink2 = mainService.getShortLink(longLink);
-        //then:
-        assert(shortLink.length() == shortLinksDomain.length() + shortLinkLength);
-        assertEquals(shortLink.substring(0, shortLinksDomain.length()), shortLinksDomain);
-        assertEquals(shortLink, shortLink2);
-    }*/
-
     @Test
     void testGetLongLink() throws Exception {
         String longLink = "";
@@ -78,17 +66,6 @@ public class MainControllerTest {
         String longLink2 = mvcResult.getResponse().getContentAsString();
         assertEquals(longLink, longLink2);
     }
-
-   /* @Test
-    void testGetLongLink() throws Exception {
-        //given:
-        String longLink = "www.example.com";
-        //when:
-        String shortLink = mainService.getShortLink(longLink);
-        String longLink2 = mainService.getLongLink(shortLink);
-        //then:
-        assertEquals(longLink, longLink2);
-    }*/
 
     @Test
     void testUniqueness() throws Exception {
@@ -114,21 +91,6 @@ public class MainControllerTest {
         assertEquals(map.size(), N);
     }
 
-   /* @Test
-    void testUniqueness() throws Exception {
-        //given:
-        int N = 1000000;
-        HashMap<String, Integer> map = new HashMap<>();
-        //when:
-        for(int i = 0; i < N; i++)
-        {
-            String shortLink = mainService.getShortLink(Integer.toString(i));
-            map.put(shortLink, i);
-        }
-        //then:
-        assertEquals(map.size(), N);
-    }*/
-
     @Test
     void testLinkNotFound() throws Exception {
 
@@ -138,19 +100,4 @@ public class MainControllerTest {
         String longLink = mvcResult.getResponse().getContentAsString();
         assertEquals(longLink, "There is no corresponding long link");
     }
-
-    /*@Test
-    void testException() throws Exception {
-        //given:
-        String shortLink = shortLinksDomain;
-        //when:
-        boolean exceptionThrown = false;
-        try {
-            String longLink = mainService.getLongLink(shortLink);
-        } catch (UnknownShortLinkException e) {
-          exceptionThrown = true;
-        }
-
-        assert(exceptionThrown);
-    }*/
 }

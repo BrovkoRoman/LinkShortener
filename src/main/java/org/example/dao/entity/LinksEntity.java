@@ -1,13 +1,14 @@
 package org.example.dao.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity(name = "links")
+@Table(indexes = @Index(columnList = "LONG_LINK, SHORT_CODE"))
 public class LinksEntity {
     @Id
+    @Column(length = 5)
     private String shortCode;
+    @Column(length = 1000)
     private String longLink;
 
     public LinksEntity() {}
