@@ -6,6 +6,7 @@ services:
     container_name: app
     depends_on:
       - db
+      - redis
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -20,3 +21,8 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123
+
+  redis:
+    image: 'redis'
+    container_name: redis
+    restart: always
