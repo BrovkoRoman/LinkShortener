@@ -21,7 +21,7 @@ public class MainController {
     }
     @PostMapping(value = "/create")
     public String createShortLink(@RequestBody String longLink) {
-        if(longLink == null || longLink.isBlank())
+        if(longLink == null || longLink.isBlank() || longLink.contains(","))
             throw new IncorrectLongLinkException();
 
         return linkService.getShortLink(longLink);
