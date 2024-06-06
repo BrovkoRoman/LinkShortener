@@ -14,6 +14,6 @@ public class KafkaProducer {
     }
 
     public void sendMessage(String message) {
-        kafkaTemplate.send("course", message);
+        kafkaTemplate.send("to_delete", message);
     }
 }

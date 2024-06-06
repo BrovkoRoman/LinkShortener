@@ -6,4 +6,5 @@ public interface DBService {
     boolean containsShortCode(String shortCode);
     boolean containsLongLink(String longLink);
     void addPairOfLinks(String longLink, String shortCode);
+    void deletePairOfLinks(String longLink, String shortCode);
 }
